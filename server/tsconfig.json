@@ -1,0 +1,26 @@
+{
+  "compilerOptions": {
+    "module": "commonjs",
+    "noImplicitReturns": true,
+    "noUnusedLocals": false,
+    "outDir": "build",
+    "sourceMap": true,
+    "strict": true,
+    "target": "es2017",
+
+    "noImplicitAny": false,
+    "allowJs": true,
+    "skipLibCheck": true,
+    "esModuleInterop": true,
+    "allowSyntheticDefaultImports": true,
+    "forceConsistentCasingInFileNames": true,
+    "noFallthroughCasesInSwitch": true,
+    "moduleResolution": "node",
+    "resolveJsonModule": true,
+    "isolatedModules": false,
+  },
+  "compileOnSave": true,
+  "include": [
+    "src"
+  ]
+}

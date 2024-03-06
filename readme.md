@@ -6,7 +6,7 @@ There's 2 directories. `client` and `server`. Both have a `npm run start` script
 
 ## server
 
-- I usually write backends the traditional SOLID way; services and controllers. Services have functions which do one thing in one context, controllers stitch together multiple services to perform a logical task. Takes it easy to test and stub.
+- I usually write backends the traditional SOLID way; services and controllers. Services have functions which do one thing in one context, controllers stitch together multiple services to perform a logical task. Makes it easy to test and stub.
 
 - I did the sorting on the backend as that's where it would happen in a real app, alongside serching and pagination. Loaded all the data into memory which isnt amazing but like the spec said, its not alot. Sorting is just done using lodash [orderBy](https://lodash.com/docs/4.17.15#orderBy) and the api supports multiple sort fields e.g. http://localhost:8000/clinics/1/patients?sort=date_of_birth&sort=last_name&order=desc
 
@@ -22,4 +22,4 @@ There's 2 directories. `client` and `server`. Both have a `npm run start` script
 
 - Added debouncing with `useCallbackDebounced`. Usually you want this for places where events come in sharp bursts like search or mouse movements, here I added it to the sort click handler. Since clicking on the header makes an API request and users often spam click, this prevents unnecessary api calls to the server.
 
-- There is basic loading and error state but you likely wont see it because the loading flags are typically delayed to allow for super fast requests. I implements something similar in the [react suspense](https://react.dev/reference/react/Suspense) placeholder `SuspensePanel`
+- There is basic loading and error state but you likely wont see it because the loading flags are typically delayed to allow for super fast requests. I implemented something similar in the [react suspense](https://react.dev/reference/react/Suspense) placeholder `SuspensePanel`

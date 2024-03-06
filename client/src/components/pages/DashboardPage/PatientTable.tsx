@@ -9,46 +9,15 @@ import Paper from '@mui/material/Paper'
 import Snackbar from '@mui/material/Snackbar'
 import Alert from '@mui/material/Alert'
 import { useGetPatientsQuery } from '../../../redux/modules/patients/patientsSlice'
-import { filtersSlice } from '../../../redux/modules/filters/filtersSlice'
 import { filtersSelectors } from '../../../redux/modules/filters/filtersSelectors'
-import { useDispatch, useSelector } from '../../../redux/hooks'
-import { patientsSlice } from '../../../redux/modules/patients/patientsSlice'
-import useCallbackDebounced from '../../../hooks/useCallbackDebounced'
-import { SortField, SortOrder } from '../../../services/patientService'
+import { useSelector } from '../../../redux/hooks'
+import { useSortOnClick } from './useSortOnClick'
 
-const useSort = ({
-  nextSort,
-  order,
-  sort,
-  selectedClinic,
-}: {
-  nextSort: SortField
-  order: SortOrder
-  sort: SortField
-  selectedClinic: number | undefined
-}) => {
-  const dispatch = useDispatch()
-  const onClick = useCallbackDebounced(() => {
-    let nextOrder = order
-    if (sort === nextSort) {
-      nextOrder = order === 'asc' ? 'desc' : 'asc'
-      dispatch(filtersSlice.actions.setOrder(nextOrder))
-    }
-    dispatch(filtersSlice.actions.setSort(nextSort))
-    if (!selectedClinic) {
-      return
-    }
-    dispatch(
-      patientsSlice.endpoints.getPatients.initiate({
-        clinicId: selectedClinic,
-        order: nextOrder,
-        sort: [nextSort],
-      }),
-    )
-  }, [dispatch, nextSort, order, selectedClinic, sort])
-  return onClick
+const sx = {
+  table: { minWidth: 650 },
+  tableCell: { width: 300 },
+  tableRow: { '&:last-child td, &:last-child th': { border: 0 } },
 }
-
 const PatientTable: FC = () => {
   const selectedClinic = useSelector(filtersSelectors.getSelectedClinic)
   const order = useSelector(filtersSelectors.getOrder)
@@ -70,9 +39,19 @@ const PatientTable: FC = () => {
       setSnackbarOpen(true)
     }
   }, [isError])
-  const onClickSortByFirstName = useSort({ nextSort: 'first_name', order, sort, selectedClinic })
-  const onClickSortByLastName = useSort({ nextSort: 'last_name', order, sort, selectedClinic })
-  const onClickSortByDateOfBirth = useSort({
+  const onClickSortByFirstName = useSortOnClick({
+    nextSort: 'first_name',
+    order,
+    sort,
+    selectedClinic,
+  })
+  const onClickSortByLastName = useSortOnClick({
+    nextSort: 'last_name',
+    order,
+    sort,
+    selectedClinic,
+  })
+  const onClickSortByDateOfBirth = useSortOnClick({
     nextSort: 'date_of_birth',
     order,
     sort,
@@ -82,30 +61,30 @@ const PatientTable: FC = () => {
     <>
       {isLoading && <div>loading...</div>}
       <TableContainer component={Paper}>
-        <Table sx={{ minWidth: 650 }} aria-label="simple table">
+        <Table sx={sx.table} aria-label="simple table">
           <TableHead>
             <TableRow>
               <TableCell onClick={onClickSortByFirstName}>
-                first name {sort === 'first_name' ? (order === 'desc' ? '^' : 'v') : ''}
+                first name {sort === 'first_name' ? (order === 'desc' ? 'v' : '^') : ''}
               </TableCell>
               <TableCell onClick={onClickSortByLastName}>
-                last name {sort === 'last_name' ? (order === 'desc' ? '^' : 'v') : ''}
+                last name {sort === 'last_name' ? (order === 'desc' ? 'v' : '^') : ''}
               </TableCell>
               <TableCell onClick={onClickSortByDateOfBirth}>
-                dob {sort === 'date_of_birth' ? (order === 'desc' ? '^' : 'v') : ''}
+                dob {sort === 'date_of_birth' ? (order === 'desc' ? 'v' : '^') : ''}
               </TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
             {data?.map(patient => (
-              <TableRow key={patient.id} sx={{ '&:last-child td, &:last-child th': { border: 0 } }}>
-                <TableCell component="th" scope="row" sx={{ width: 300 }}>
+              <TableRow key={patient.id} sx={sx.tableRow}>
+                <TableCell component="th" scope="row" sx={sx.tableCell}>
                   {patient.first_name}
                 </TableCell>
-                <TableCell component="th" scope="row" sx={{ width: 300 }}>
+                <TableCell component="th" scope="row" sx={sx.tableCell}>
                   {patient.last_name}
                 </TableCell>
-                <TableCell sx={{ width: 300 }}>{patient.date_of_birth}</TableCell>
+                <TableCell sx={sx.tableCell}>{patient.date_of_birth}</TableCell>
               </TableRow>
             ))}
           </TableBody>

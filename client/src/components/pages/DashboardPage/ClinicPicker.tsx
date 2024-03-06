@@ -11,6 +11,10 @@ import { filtersSelectors } from '../../../redux/modules/filters/filtersSelector
 import { useDispatch, useSelector } from '../../../redux/hooks'
 import { patientsSlice } from '../../../redux/modules/patients/patientsSlice'
 
+const sx = {
+  formControl: { m: 1, minWidth: 120 },
+}
+
 const ClinicPicker: FC = () => {
   const dispatch = useDispatch()
   const { isLoading, data, error, isError } = useGetClinicsQuery()
@@ -45,7 +49,7 @@ const ClinicPicker: FC = () => {
   }, [isError])
   return (
     <div>
-      <FormControl sx={{ m: 1, minWidth: 120 }}>
+      <FormControl sx={sx.formControl}>
         <InputLabel id="controlled-open-select-label">
           {isLoading ? 'Loading...' : 'Clinics'}
         </InputLabel>

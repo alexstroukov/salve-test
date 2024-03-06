@@ -1,11 +1,12 @@
 import express, { Request, Response } from 'express'
+import cors from 'cors'
 import * as yup from 'yup'
 import { clinicService } from './services/clinicService'
 import { SortField, SortOrder, patientService } from './services/patientService'
 
 const app = express()
 const PORT = 8000
-
+app.use(cors())
 app.get('/clinics', async (req: Request, res: Response) => {
   try {
     const clinics = await clinicService.fetchAllClinics().catch((error: Error) => {

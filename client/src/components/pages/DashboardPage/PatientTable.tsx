@@ -1,4 +1,4 @@
-import { FC, useCallback, useEffect, useState } from 'react'
+import { FC, useCallback, useEffect, useState, memo } from 'react'
 import Table from '@mui/material/Table'
 import TableBody from '@mui/material/TableBody'
 import TableCell from '@mui/material/TableCell'
@@ -99,4 +99,4 @@ const PatientTable: FC = () => {
   )
 }
 
-export default PatientTable
+export default memo(PatientTable)

@@ -1,4 +1,4 @@
-import { FC, useCallback, useEffect, useState } from 'react'
+import { FC, useCallback, useEffect, useState, memo } from 'react'
 import InputLabel from '@mui/material/InputLabel'
 import MenuItem from '@mui/material/MenuItem'
 import FormControl from '@mui/material/FormControl'
@@ -81,4 +81,4 @@ const ClinicPicker: FC = () => {
   )
 }
 
-export default ClinicPicker
+export default memo(ClinicPicker)
